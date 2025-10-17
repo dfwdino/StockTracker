@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "msbuild",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build",
+			"label": "Build: StockTracker.csproj",
+			"detail": "Build the StockTracker.csproj project using dotnet build"
+		}
+	]
+}
