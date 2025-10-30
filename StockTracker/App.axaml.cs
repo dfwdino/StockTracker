@@ -48,9 +48,18 @@ namespace StockTracker
                         services.AddHttpClient();
 
                         // Repositories
-                        var dataDirectory = configuration["Application:DataDirectory"] ?? "Data";
-                        services.AddSingleton<IStockRepository>(provider => 
-                            new FileStockRepository(dataDirectory));
+                                var dataDirectory = configuration["Application:DataDirectory"] ?? "Data";
+
+                                // Resolve relative data directory paths against the application's
+                                // base directory (the output folder) so file storage is predictable
+                                // regardless of the process's current working directory.
+                                if (!Path.IsPathRooted(dataDirectory))
+                                {
+                                    dataDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, dataDirectory));
+                                }
+
+                                services.AddSingleton<IStockRepository>(provider => 
+                                    new FileStockRepository(dataDirectory));
 
                         // Services
                         services.AddScoped<IStockPriceService>(provider =>

@@ -96,8 +96,8 @@ namespace StockTracker.ViewModels
                 
                 // Reset form
                 NewSymbol = string.Empty;
-                //NewPrice = 0;
-                //NewQuantity = 0;
+                NewPrice = "0";
+                NewQuantity = "0";
                 NewPurchaseDate = DateTime.Today.ToString("yyyy-MM-dd");
 
                 StatusMessage = "Purchase added successfully";
