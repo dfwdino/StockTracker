@@ -145,8 +145,10 @@
                             HorizontalAlignment="Right">
                   <Button Content="Refresh Price" Command="{Binding RefreshPriceCommand}" 
                           Classes="outline" Margin="0,0,0,10" Width="120"/>
-                  <Button Content="Delete Stock" Command="{Binding DeleteStockCommand}" 
-                          CommandParameter="{Binding}" Classes="danger" Width="120"/>
+                  <Button Content="Delete Stock" 
+                          Command="{Binding DataContext.DeleteStockCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                          CommandParameter="{Binding}"
+                          Classes="danger" Width="120"/>
                 </StackPanel>
 
                 <!-- Purchases List -->

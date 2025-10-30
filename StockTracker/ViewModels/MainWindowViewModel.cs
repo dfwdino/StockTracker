@@ -28,10 +28,10 @@ namespace StockTracker.ViewModels
         private string newSymbol = string.Empty;
 
         [ObservableProperty]
-        private decimal newPrice;
+        private string newPrice;
 
         [ObservableProperty]
-        private decimal newQuantity;// = 1;
+        private string newQuantity;// = 1;
 
         [ObservableProperty]
         private string newPurchaseDate = DateTime.Today.ToString("yyyy-MM-dd");
@@ -73,6 +73,11 @@ namespace StockTracker.ViewModels
         [RelayCommand]
         private async Task AddPurchaseAsync()
         {
+            decimal price, quantity;
+
+            price = decimal.TryParse(NewPrice, out price) ? price : 0;
+            quantity = decimal.TryParse(NewPrice, out price) ? price : 0;
+
             if (string.IsNullOrWhiteSpace(NewSymbol))
             {
                 StatusMessage = "Please enter a stock symbol";
@@ -84,7 +89,7 @@ namespace StockTracker.ViewModels
                 IsLoading = true;
                 StatusMessage = "Adding purchase...";
 
-                await _stockManagementService.AddPurchaseAsync(NewSymbol, NewPrice, NewQuantity, NewPurchaseDate);
+                await _stockManagementService.AddPurchaseAsync(NewSymbol, price, quantity, NewPurchaseDate);
                 
                 // Refresh the stocks list
                 await LoadStocksAsync();
