@@ -1,0 +1,25 @@
+{
+  "symbol": "TGT",
+  "currentPrice": 92.7200,
+  "lastUpdated": "2025-11-01T01:01:26.3115495Z",
+  "purchases": [
+    {
+      "pricePerShare": 112.98,
+      "quantity": 0.88514,
+      "purchaseDate": "3/4/2025 12:00:00 AM -05:00",
+      "isDividend": false
+    },
+    {
+      "pricePerShare": 131.06,
+      "quantity": 0.38149,
+      "purchaseDate": "12/17/2024 12:00:00 AM -05:00",
+      "isDividend": false
+    },
+    {
+      "pricePerShare": 91.84,
+      "quantity": 4.1658544,
+      "purchaseDate": "9/2/2025 12:00:00 AM -05:00",
+      "isDividend": true
+    }
+  ]
+}
