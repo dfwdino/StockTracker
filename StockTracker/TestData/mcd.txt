@@ -1,0 +1,12 @@
+{
+  "symbol": "MCD",
+  "currentPrice": 294.3700,
+  "lastUpdated": "2025-10-08T22:09:41.9641289Z",
+  "purchases": [
+    {
+      "pricePerShare": 50,
+      "quantity": 1,
+      "purchaseDate": "2025-10-08T00:00:00-05:00"
+    }
+  ]
+}

@@ -1,13 +1,7 @@
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using StockTracker.Domain.Entities;
 using StockTracker.Domain.Services;
+using System.Collections.ObjectModel;
 
 namespace StockTracker.ViewModels
 {
@@ -32,6 +26,9 @@ namespace StockTracker.ViewModels
 
         [ObservableProperty]
         private string newQuantity;// = 1;
+
+        [ObservableProperty]
+        private bool newIsDividend = false;
 
         [ObservableProperty]
         private string newPurchaseDate = DateTime.Today.ToString("yyyy-MM-dd");
@@ -76,7 +73,7 @@ namespace StockTracker.ViewModels
             decimal price, quantity;
 
             price = decimal.TryParse(NewPrice, out price) ? price : 0;
-            quantity = decimal.TryParse(NewPrice, out price) ? price : 0;
+            quantity = decimal.TryParse(newQuantity, out quantity) ? quantity : 0;
 
             if (string.IsNullOrWhiteSpace(NewSymbol))
             {
@@ -89,16 +86,17 @@ namespace StockTracker.ViewModels
                 IsLoading = true;
                 StatusMessage = "Adding purchase...";
 
-                await _stockManagementService.AddPurchaseAsync(NewSymbol, price, quantity, NewPurchaseDate);
-                
+                await _stockManagementService.AddPurchaseAsync(NewSymbol, price, quantity, NewPurchaseDate, newIsDividend);
+
                 // Refresh the stocks list
                 await LoadStocksAsync();
-                
+
                 // Reset form
                 NewSymbol = string.Empty;
                 NewPrice = "0";
                 NewQuantity = "0";
                 NewPurchaseDate = DateTime.Today.ToString("yyyy-MM-dd");
+                newIsDividend = false;
 
                 StatusMessage = "Purchase added successfully";
             }

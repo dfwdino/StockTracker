@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using StockTracker.Domain.Entities;
 using StockTracker.Domain.Repositories;
 using StockTracker.Domain.Services;
@@ -31,7 +28,7 @@ namespace StockTracker.Application.Services
             return await _stockRepository.GetBySymbolAsync(symbol.ToUpperInvariant());
         }
 
-        public async Task AddPurchaseAsync(string symbol, decimal pricePerShare, decimal quantity, string purchaseDate)
+        public async Task AddPurchaseAsync(string symbol, decimal pricePerShare, decimal quantity, string purchaseDate, bool isDividend)
         {
             if (string.IsNullOrWhiteSpace(symbol))
                 throw new ArgumentException("Symbol cannot be null or empty", nameof(symbol));
@@ -39,11 +36,11 @@ namespace StockTracker.Application.Services
             if (pricePerShare <= 0)
                 throw new ArgumentException("Price per share must be greater than zero", nameof(pricePerShare));
 
-            //if (quantity <= 0)
-              //  throw new ArgumentException("Quantity must be greater than zero", nameof(quantity));
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity must be greater than zero", nameof(quantity));
 
             var stock = await _stockRepository.GetBySymbolAsync(symbol.ToUpperInvariant());
-            stock.AddPurchase(pricePerShare, quantity, purchaseDate);
+            stock.AddPurchase(pricePerShare, quantity, purchaseDate, isDividend);
             await _stockRepository.SaveAsync(stock);
         }
 

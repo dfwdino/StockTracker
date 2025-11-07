@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 using StockTracker.Domain.Entities;
 using StockTracker.Domain.Repositories;
+using System.Text.Json;
 
 namespace StockTracker.Infrastructure.Repositories
 {
@@ -32,7 +27,7 @@ namespace StockTracker.Infrastructure.Repositories
         public async Task<Stock> GetBySymbolAsync(string symbol)
         {
             var filePath = GetFilePath(symbol);
-            
+
             if (!File.Exists(filePath))
             {
                 return new Stock(symbol);
@@ -42,7 +37,7 @@ namespace StockTracker.Infrastructure.Repositories
             {
                 var json = await File.ReadAllTextAsync(filePath);
                 var stockData = JsonSerializer.Deserialize<StockData>(json, _jsonOptions);
-                
+
                 if (stockData == null)
                 {
                     return new Stock(symbol);
@@ -56,7 +51,8 @@ namespace StockTracker.Infrastructure.Repositories
                     stock.AddPurchase(
                         purchaseData.PricePerShare,
                         purchaseData.Quantity,
-                        purchaseData.PurchaseDate
+                        purchaseData.PurchaseDate,
+                        purchaseData.IsDividend
                     );
                 }
 
@@ -72,14 +68,14 @@ namespace StockTracker.Infrastructure.Repositories
         public async Task<IEnumerable<Stock>> GetAllAsync()
         {
             var stocks = new List<Stock>();
-            
+
             if (!Directory.Exists(_dataDirectory))
             {
                 return stocks;
             }
 
             var files = Directory.GetFiles(_dataDirectory, "*.txt");
-            
+
             foreach (var file in files)
             {
                 var symbol = Path.GetFileNameWithoutExtension(file);
@@ -93,17 +89,18 @@ namespace StockTracker.Infrastructure.Repositories
         public async Task SaveAsync(Stock stock)
         {
             var filePath = GetFilePath(stock.Symbol);
-            
+
             var stockData = new StockData
             {
                 Symbol = stock.Symbol,
                 CurrentPrice = stock.CurrentPrice,
                 LastUpdated = stock.LastUpdated,
-                Purchases = stock.Purchases.Select(p => new PurchaseData
+                Purchases = stock.Purchases.OrderBy(mm => mm.IsDividend).Select(p => new PurchaseData
                 {
                     PricePerShare = p.PricePerShare,
                     Quantity = p.Quantity,
-                    PurchaseDate = p.PurchaseDate
+                    PurchaseDate = p.PurchaseDate,
+                    IsDividend = p.IsDividend
                 }).ToList()
             };
 
@@ -114,7 +111,7 @@ namespace StockTracker.Infrastructure.Repositories
         public async Task DeleteAsync(string symbol)
         {
             var filePath = GetFilePath(symbol);
-            
+
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
@@ -148,6 +145,7 @@ namespace StockTracker.Infrastructure.Repositories
             public decimal PricePerShare { get; set; }
             public decimal Quantity { get; set; }
             public string? PurchaseDate { get; set; }
+            public bool IsDividend { get; set; } = false;
         }
     }
 }

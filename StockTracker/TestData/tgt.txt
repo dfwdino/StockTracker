@@ -1,0 +1,17 @@
+{
+  "symbol": "TGT",
+  "currentPrice": 90.3850,
+  "lastUpdated": "2025-10-08T22:10:21.0097575Z",
+  "purchases": [
+    {
+      "pricePerShare": 88,
+      "quantity": 1,
+      "purchaseDate": "2025-10-01T00:00:00-05:00"
+    },
+    {
+      "pricePerShare": 100,
+      "quantity": 12,
+      "purchaseDate": "2025-10-08T00:00:00-05:00"
+    }
+  ]
+}

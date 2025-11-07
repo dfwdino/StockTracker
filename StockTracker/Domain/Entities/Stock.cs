@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace StockTracker.Domain.Entities
 {
     public class Stock
@@ -17,9 +13,9 @@ namespace StockTracker.Domain.Entities
             Purchases = new List<Purchase>();
         }
 
-        public void AddPurchase(decimal price, decimal quantity, string purchaseDate)
+        public void AddPurchase(decimal price, decimal quantity, string purchaseDate, bool isdividend = false)
         {
-            var purchase = new Purchase(price, quantity, purchaseDate);
+            var purchase = new Purchase(price, quantity, purchaseDate, isdividend);
             Purchases.Add(purchase);
         }
 
