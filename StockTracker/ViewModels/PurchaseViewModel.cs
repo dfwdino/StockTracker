@@ -1,7 +1,6 @@
-using System;
-using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using StockTracker.Domain.Entities;
+using System.Globalization;
 
 namespace StockTracker.ViewModels
 {
@@ -13,6 +12,8 @@ namespace StockTracker.ViewModels
         public decimal Quantity => _purchase.Quantity;
         public DateTime PurchaseDate => Convert.ToDateTime(_purchase.PurchaseDate);
         public decimal TotalCost => _purchase.TotalCost;
+
+        public bool IsDividend => _purchase.IsDividend;
 
         public string PricePerShareFormatted => PricePerShare.ToString("C2", CultureInfo.InvariantCulture);
         public string QuantityFormatted => Quantity.ToString("N2");

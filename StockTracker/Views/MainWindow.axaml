@@ -3,11 +3,11 @@
         xmlns:vm="using:StockTracker.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="800"
         x:Class="StockTracker.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="Stock Tracker"
-        MinWidth="1000" MinHeight="600">
+        MinWidth="1200" MinHeight="600" Width="1400" Height="600">
 
 	<Design.DataContext>
 		<vm:MainWindowViewModel/>
@@ -33,25 +33,25 @@
 
 		<!-- Add Purchase Form -->
 		<Border Grid.Row="1" Background="#F5F5F5" Padding="15" Margin="0,0,0,10">
-			<Grid ColumnDefinitions="Auto,100,Auto,100,Auto,100,Auto,auto,auto,*,*" RowDefinitions="Auto,Auto">
+			<Grid ColumnDefinitions="Auto,auto,Auto,auto,Auto,100,Auto,auto,auto,*,*" RowDefinitions="Auto,Auto">
 
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Add Purchase:" FontWeight="Bold"
-						   MinWidth="150" VerticalAlignment="Center" Margin="0,0,10,0"/>
+						   MinWidth="100" VerticalAlignment="Center"  Margin="0,0,10,0"/>
 
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NewSymbol}"
-						 Watermark="Symbol (e.g., AAPL)" Margin="0,0,10,0"/>
+						  Watermark="Symbol (e.g., AAPL)"  Margin="0,0,10,0"/>
 
 				<TextBlock Grid.Row="0" Grid.Column="2" Text="Price:" VerticalAlignment="Center"
 						   Margin="0,0,10,0"/>
 
 				<TextBox Grid.Row="0" Grid.Column="3" Text="{Binding NewPrice}"
-						 Watermark="0.00" Margin="0,0,10,0"/>
+						  Watermark="0.00" Margin="0,0,10,0"/>
 
 				<TextBlock Grid.Row="0" Grid.Column="4" Text="Quantity:" VerticalAlignment="Center"
-						   Margin="0,0,10,0"/>
+						    Margin="0,0,10,0"/>
 
 				<TextBox Grid.Row="0" Grid.Column="5" Text="{Binding NewQuantity}"
-						 Watermark="1" Margin="0,0,10,0"/>
+						Watermark="1" Margin="0,0,10,0"/>
 
 				<TextBlock Grid.Row="0" Grid.Column="6" Text="Date:" VerticalAlignment="Center"
 						   Margin="0,0,10,0"/>
@@ -107,7 +107,7 @@
 
 								<!-- Performance Summary -->
 								<StackPanel Grid.Row="0" Grid.Column="1" Margin="20,0">
-									<Grid ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
+									<Grid ColumnDefinitions="Auto,auto,Auto,auto" RowDefinitions="Auto,Auto,Auto,Auto">
 
 										<TextBlock Grid.Row="0" Grid.Column="0" Text="Total Investment:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
@@ -164,12 +164,12 @@
 										CornerRadius="4" Margin="0,15,0,0" Padding="15">
 									<StackPanel>
 
-										<Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+										<Grid ColumnDefinitions="Auto,auto,Auto,Auto,Auto">
 											<TextBlock Grid.Column="0" Text="Purchase History" FontWeight="Bold" Width="125"/>
-											<TextBlock Grid.Column="1" Text="Quantity" FontWeight="Bold" TextAlignment="Center"/>
-											<TextBlock Grid.Column="2" Text="Price Per Share" FontWeight="Bold" Margin="0,0,20,0" TextAlignment="Center"/>
-											<TextBlock Grid.Column="3" Text="Total Cost" FontWeight="Bold"/>
-											<TextBlock Grid.Column="4" Text="Is Div" FontWeight="Bold"/>
+											<TextBlock Grid.Column="1" Text="Quantity" FontWeight="Bold" TextAlignment="Center" Width="125"/>
+											<TextBlock Grid.Column="2" Text="Price Per Share" FontWeight="Bold" Width="125" TextAlignment="Center"/>
+											<TextBlock Grid.Column="3" Text="Total Cost" TextAlignment="Center" FontWeight="Bold" Width="125"/>
+											<TextBlock Grid.Column="4" Text="Is Div" TextAlignment="Center" FontWeight="Bold" Width="125"/>
 										</Grid>
 
 
@@ -177,16 +177,21 @@
 											<ItemsControl.ItemTemplate>
 												<DataTemplate>
 													<Border Padding="5" Margin="0,0,0,5">
-														<Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+														<Grid ColumnDefinitions="Auto,auto,Auto,Auto,Auto">
 															<TextBlock Grid.Column="0" Text="{Binding PurchaseDateFormatted}"
-																	   FontWeight="SemiBold" Width="100"/>
+																	   FontWeight="SemiBold" Width="125"/>
 															<TextBlock Grid.Column="1" Text="{Binding QuantityFormatted}"
-																	   TextAlignment="Center"/>
+																	   TextAlignment="Center" Width="125"/>
 															<TextBlock Grid.Column="2" Text="{Binding PricePerShareFormatted}"
-																	   TextAlignment="Center" Margin="0,0,20,0"/>
+																	   TextAlignment="Center" Width="125"/>
 															<TextBlock Grid.Column="3" Text="{Binding TotalCostFormatted}"
-																	   TextAlignment="Right" FontWeight="SemiBold"/>
-															<CheckBox Grid.Column="4" IsChecked="{Binding IsDividend}"/>
+																	   TextAlignment="Center" FontWeight="SemiBold" Width="125"/>
+
+															<Panel Grid.Column="4" Width="125" HorizontalAlignment="Stretch">
+																<CheckBox IsEnabled="False" IsChecked="{Binding IsDividend}"
+																		  HorizontalAlignment="Center"
+																		  VerticalAlignment="Center"/>
+															</Panel>
 														</Grid>
 													</Border>
 												</DataTemplate>
