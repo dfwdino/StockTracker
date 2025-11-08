@@ -107,12 +107,13 @@
 
 								<!-- Performance Summary -->
 								<StackPanel Grid.Row="0" Grid.Column="1" Margin="20,0">
-									<Grid ColumnDefinitions="Auto,auto,Auto,auto" RowDefinitions="Auto,Auto,Auto,Auto">
+									<Grid ColumnDefinitions="Auto,auto,Auto,auto,auto, auto" RowDefinitions="Auto,Auto,Auto,Auto">
 
 										<TextBlock Grid.Row="0" Grid.Column="0" Text="Total Investment:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalInvestmentFormatted}"
 												   Margin="0,0,20,5"/>
+										
 										<TextBlock Grid.Row="0" Grid.Column="2" Text="Current Value:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding CurrentValueFormatted}"
@@ -123,6 +124,7 @@
 										<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding TotalGainLossFormatted}"
 												   Foreground="{Binding TotalGainLossColor}" FontWeight="SemiBold"
 												   Margin="0,0,20,5"/>
+										
 										<TextBlock Grid.Row="1" Grid.Column="2" Text="Percentage:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding TotalGainLossPercentageFormatted}"
@@ -134,10 +136,23 @@
 										<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding LatestPurchaseGainLossFormatted}"
 												   Foreground="{Binding LatestPurchaseGainLossColor}" FontWeight="SemiBold"
 												   Margin="0,0,20,5"/>
+										
 										<TextBlock Grid.Row="2" Grid.Column="2" Text="Percentage:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding LatestPurchaseGainLossPercentageFormatted}"
 												   Foreground="{Binding LatestPurchaseGainLossColor}" FontWeight="SemiBold"
+												   Margin="0,0,0,5"/>
+
+										<TextBlock Grid.Row="3" Grid.Column="2" Text="Div:"
+												   FontWeight="SemiBold" Margin="0,0,10,5"/>
+										<TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding LatestDivTotalFormatted}"
+												   Foreground="{Binding LatestDivTotalFormatted}" FontWeight="SemiBold"
+												   Margin="0,0,0,5"/>
+
+										<TextBlock Grid.Row="0" Grid.Column="4" Text="Total Bought:"
+												   FontWeight="SemiBold" Margin="0,0,10,5"/>
+										<TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding TotalBought}"
+												   Foreground="{Binding TotalBought}" FontWeight="SemiBold"
 												   Margin="0,0,0,5"/>
 
 										<TextBlock Grid.Row="3" Grid.Column="0" Text="Total Shares:"

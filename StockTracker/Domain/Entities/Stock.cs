@@ -30,10 +30,24 @@ namespace StockTracker.Domain.Entities
             return Purchases.OrderByDescending(p => p.PurchaseDate).FirstOrDefault();
         }
 
+
+        public decimal? GetTotalBought()
+        {
+            return Purchases.Where(p => p.IsDividend == false).Sum(p => p.TotalCost);
+        }
+
+
+        public decimal? GetLatestDividendTotal()
+        {
+            return Purchases.Where(p => p.IsDividend == true).Sum(p => p.TotalCost);
+        }
+
         public decimal GetTotalInvestment()
         {
             return Purchases.Sum(p => p.TotalCost);
         }
+
+
 
         public decimal GetTotalShares()
         {
@@ -70,5 +84,7 @@ namespace StockTracker.Domain.Entities
             if (latestPurchase == null) return 0;
             return ((CurrentPrice - latestPurchase.PricePerShare) / latestPurchase.PricePerShare) * 100;
         }
+
+
     }
 }

@@ -1,13 +1,9 @@
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StockTracker.Domain.Entities;
 using StockTracker.Domain.Services;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace StockTracker.ViewModels
 {
@@ -20,12 +16,15 @@ namespace StockTracker.ViewModels
         public decimal CurrentPrice => _stock.CurrentPrice;
         public DateTime LastUpdated => _stock.LastUpdated;
         public decimal TotalInvestment => _stock.GetTotalInvestment();
+        public string TotalBought => _stock.GetTotalBought()?.ToString("C2", CultureInfo.InvariantCulture);
         public decimal TotalShares => _stock.GetTotalShares();
         public decimal CurrentValue => _stock.GetCurrentValue();
         public decimal TotalGainLoss => _stock.GetTotalGainLoss();
         public decimal TotalGainLossPercentage => _stock.GetTotalGainLossPercentage();
         public decimal LatestPurchaseGainLoss => _stock.GetLatestPurchaseGainLoss();
         public decimal LatestPurchaseGainLossPercentage => _stock.GetLatestPurchaseGainLossPercentage();
+
+        public string LatestDivTotalFormatted => _stock.GetLatestDividendTotal()?.ToString("C2", CultureInfo.InvariantCulture);
 
         public ObservableCollection<PurchaseViewModel> Purchases { get; }
 
@@ -38,6 +37,8 @@ namespace StockTracker.ViewModels
         public string LatestPurchaseGainLossPercentageFormatted => $"{LatestPurchaseGainLossPercentage:F2}%";
         public string LastUpdatedFormatted => LastUpdated.ToString("yyyy-MM-dd HH:mm:ss UTC");
 
+
+
         public string TotalGainLossColor => TotalGainLoss >= 0 ? "Green" : "Red";
         public string LatestPurchaseGainLossColor => LatestPurchaseGainLoss >= 0 ? "Green" : "Red";
 
@@ -48,10 +49,11 @@ namespace StockTracker.ViewModels
         {
             _stock = stock ?? throw new ArgumentNullException(nameof(stock));
             _stockManagementService = stockManagementService ?? throw new ArgumentNullException(nameof(stockManagementService));
-            
+
             Purchases = new ObservableCollection<PurchaseViewModel>(
-                stock.Purchases.OrderByDescending(p => p.PurchaseDate)
-                    .Select(p => new PurchaseViewModel(p))
+                stock.Purchases.Select(p => new PurchaseViewModel(p)).OrderByDescending(p => p.PurchaseDate)
+
+
             );
         }
 
@@ -62,10 +64,10 @@ namespace StockTracker.ViewModels
             {
                 IsRefreshing = true;
                 await _stockManagementService.UpdateStockPriceAsync(_stock.Symbol);
-                
+
                 // Reload the stock data
                 _stock = await _stockManagementService.GetStockAsync(_stock.Symbol);
-                
+
                 // Notify property changes
                 OnPropertyChanged(nameof(CurrentPrice));
                 OnPropertyChanged(nameof(LastUpdated));
@@ -98,14 +100,14 @@ namespace StockTracker.ViewModels
         public void UpdateStock(Stock updatedStock)
         {
             _stock = updatedStock;
-            
+
             // Update purchases collection
             Purchases.Clear();
             foreach (var purchase in updatedStock.Purchases.OrderByDescending(p => p.PurchaseDate))
             {
                 Purchases.Add(new PurchaseViewModel(purchase));
             }
-            
+
             // Notify all property changes
             OnPropertyChanged(nameof(CurrentPrice));
             OnPropertyChanged(nameof(LastUpdated));
