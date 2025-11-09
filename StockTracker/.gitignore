@@ -3,5 +3,7 @@
 ################################################################################
 
 /.vs
-StockTracker/bin/
-StockTracker/obj/
+/StockTracker/bin/
+/StockTracker/obj/
+/bin/
+/obj/

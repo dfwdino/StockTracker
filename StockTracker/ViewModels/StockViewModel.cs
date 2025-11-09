@@ -16,7 +16,7 @@ namespace StockTracker.ViewModels
         public decimal CurrentPrice => _stock.CurrentPrice;
         public DateTime LastUpdated => _stock.LastUpdated;
         public decimal TotalInvestment => _stock.GetTotalInvestment();
-        public string TotalBought => _stock.GetTotalBought()?.ToString("C2", CultureInfo.InvariantCulture);
+        public string TotalBought => _stock.GetTotalBought()?.ToString("C2", CultureInfo.CurrentCulture);
         public decimal TotalShares => _stock.GetTotalShares();
         public decimal CurrentValue => _stock.GetCurrentValue();
         public decimal TotalGainLoss => _stock.GetTotalGainLoss();
@@ -24,20 +24,23 @@ namespace StockTracker.ViewModels
         public decimal LatestPurchaseGainLoss => _stock.GetLatestPurchaseGainLoss();
         public decimal LatestPurchaseGainLossPercentage => _stock.GetLatestPurchaseGainLossPercentage();
 
-        public string LatestDivTotalFormatted => _stock.GetLatestDividendTotal()?.ToString("C2", CultureInfo.InvariantCulture);
+        public string LatestDivTotalFormatted => _stock.GetLatestDividendTotal()?.ToString("C2", CultureInfo.CurrentCulture);
 
         public ObservableCollection<PurchaseViewModel> Purchases { get; }
 
-        public string CurrentPriceFormatted => CurrentPrice.ToString("C2", CultureInfo.InvariantCulture);
-        public string TotalInvestmentFormatted => TotalInvestment.ToString("C2", CultureInfo.InvariantCulture);
-        public string CurrentValueFormatted => CurrentValue.ToString("C2", CultureInfo.InvariantCulture);
-        public string TotalGainLossFormatted => TotalGainLoss.ToString("C2", CultureInfo.InvariantCulture);
+        public string CurrentPriceFormatted => CurrentPrice.ToString("C2", CultureInfo.CurrentCulture);
+        public string TotalInvestmentFormatted => TotalInvestment.ToString("C2", CultureInfo.CurrentCulture);
+        public string CurrentValueFormatted => CurrentValue.ToString("C2", CultureInfo.CurrentCulture);
+        public string TotalGainLossFormatted => TotalGainLoss.ToString("C2", CultureInfo.CurrentCulture);
         public string TotalGainLossPercentageFormatted => $"{TotalGainLossPercentage:F2}%";
-        public string LatestPurchaseGainLossFormatted => LatestPurchaseGainLoss.ToString("C2", CultureInfo.InvariantCulture);
+        public string LatestPurchaseGainLossFormatted => LatestPurchaseGainLoss.ToString("C2", CultureInfo.CurrentCulture);
         public string LatestPurchaseGainLossPercentageFormatted => $"{LatestPurchaseGainLossPercentage:F2}%";
         public string LastUpdatedFormatted => LastUpdated.ToString("yyyy-MM-dd HH:mm:ss UTC");
 
 
+        public string BoughtMax => _stock.GetMaxBought()?.ToString("C2", CultureInfo.CurrentCulture);
+        public string BoughtMin => _stock.GetMinBought()?.ToString("C2", CultureInfo.CurrentCulture);
+        public string DivMaxMin => _stock.GetMaxMinDiv();
 
         public string TotalGainLossColor => TotalGainLoss >= 0 ? "Green" : "Red";
         public string LatestPurchaseGainLossColor => LatestPurchaseGainLoss >= 0 ? "Green" : "Red";

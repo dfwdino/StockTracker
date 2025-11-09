@@ -15,9 +15,9 @@ namespace StockTracker.ViewModels
 
         public bool IsDividend => _purchase.IsDividend;
 
-        public string PricePerShareFormatted => PricePerShare.ToString("C2", CultureInfo.InvariantCulture);
+        public string PricePerShareFormatted => PricePerShare.ToString("C2", CultureInfo.CurrentCulture);
         public string QuantityFormatted => Quantity.ToString("N2");
-        public string TotalCostFormatted => TotalCost.ToString("C2", CultureInfo.InvariantCulture);
+        public string TotalCostFormatted => TotalCost.ToString("C2", CultureInfo.CurrentCulture);
         public string PurchaseDateFormatted => PurchaseDate.ToString("yyyy-MM-dd");
 
         public PurchaseViewModel(Purchase purchase)

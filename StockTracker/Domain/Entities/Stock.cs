@@ -25,6 +25,22 @@ namespace StockTracker.Domain.Entities
             LastUpdated = DateTime.UtcNow;
         }
 
+        public decimal? GetMaxBought()
+        {
+            return Purchases.Where(p => p.IsDividend == false).Max(p => (decimal?)p.PricePerShare);
+        }
+
+        public decimal? GetMinBought()
+        {
+            return Purchases.Where(p => p.IsDividend == false).Min(p => (decimal?)p.PricePerShare);
+        }
+
+        public string GetMaxMinDiv()
+        {
+            return string.Concat(Purchases.Where(p => p.IsDividend == true).Max(p => (decimal?)p.PricePerShare).ToString(), "-", Purchases.Where(p => p.IsDividend == true).Min(p => (decimal?)p.PricePerShare).ToString());
+        }
+
+
         public Purchase? GetLatestPurchase()
         {
             return Purchases.OrderByDescending(p => p.PurchaseDate).FirstOrDefault();

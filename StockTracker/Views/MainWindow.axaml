@@ -109,6 +109,7 @@
 								<StackPanel Grid.Row="0" Grid.Column="1" Margin="20,0">
 									<Grid ColumnDefinitions="Auto,auto,Auto,auto,auto, auto" RowDefinitions="Auto,Auto,Auto,Auto">
 
+										
 										<TextBlock Grid.Row="0" Grid.Column="0" Text="Total Investment:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalInvestmentFormatted}"
@@ -141,24 +142,42 @@
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding LatestPurchaseGainLossPercentageFormatted}"
 												   Foreground="{Binding LatestPurchaseGainLossColor}" FontWeight="SemiBold"
-												   Margin="0,0,0,5"/>
+												   Margin="0,0,20,5"/>
 
 										<TextBlock Grid.Row="3" Grid.Column="2" Text="Div:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding LatestDivTotalFormatted}"
 												   Foreground="{Binding LatestDivTotalFormatted}" FontWeight="SemiBold"
-												   Margin="0,0,0,5"/>
+												   Margin="0,0,20,5"/>
 
 										<TextBlock Grid.Row="0" Grid.Column="4" Text="Total Bought:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding TotalBought}"
 												   Foreground="{Binding TotalBought}" FontWeight="SemiBold"
-												   Margin="0,0,0,5"/>
+												   Margin="0,0,20,5"/>
+
+										<TextBlock Grid.Row="1" Grid.Column="4" Text="Bought Max"
+												   FontWeight="SemiBold" Margin="0,0,10,5"/>
+										<TextBlock Grid.Row="1" Grid.Column="5" Text="{Binding BoughtMax}"
+												   Foreground="{Binding TotalBought}" FontWeight="SemiBold"
+												   Margin="0,0,20,5"/>
+
+										<TextBlock Grid.Row="2" Grid.Column="4" Text="Bought Min"
+												   FontWeight="SemiBold" Margin="0,0,10,5"/>
+										<TextBlock Grid.Row="2" Grid.Column="5" Text="{Binding BoughtMin}"
+												   Foreground="{Binding TotalBought}" FontWeight="SemiBold"
+												   Margin="0,0,20,5"/>
+
+										<TextBlock Grid.Row="3" Grid.Column="4" Text="Div Max/Min"
+												   FontWeight="SemiBold" Margin="0,0,10,5"/>
+										<TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding DivMaxMin}"
+												   Foreground="{Binding TotalBought}" FontWeight="SemiBold"
+												   Margin="0,0,20,5"/>
 
 										<TextBlock Grid.Row="3" Grid.Column="0" Text="Total Shares:"
 												   FontWeight="SemiBold" Margin="0,0,10,0"/>
 										<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding TotalShares}"
-												   Margin="0,0,20,0"/>
+												   Margin="0,0,0,0"/>
 									</Grid>
 								</StackPanel>
 
