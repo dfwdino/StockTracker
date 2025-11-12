@@ -86,7 +86,7 @@ namespace StockTracker.ViewModels
                 IsLoading = true;
                 StatusMessage = "Adding purchase...";
 
-                await _stockManagementService.AddPurchaseAsync(NewSymbol, price, quantity, NewPurchaseDate, newIsDividend);
+                await _stockManagementService.AddPurchaseAsync(NewSymbol, price, quantity, NewPurchaseDate, NewIsDividend);
 
                 // Refresh the stocks list
                 await LoadStocksAsync();
@@ -96,7 +96,7 @@ namespace StockTracker.ViewModels
                 NewPrice = "0";
                 NewQuantity = "0";
                 NewPurchaseDate = DateTime.Today.ToString("yyyy-MM-dd");
-                newIsDividend = false;
+                NewIsDividend = false;
 
                 StatusMessage = "Purchase added successfully";
             }
