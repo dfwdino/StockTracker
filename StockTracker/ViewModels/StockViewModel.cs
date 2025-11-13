@@ -4,6 +4,8 @@ using StockTracker.Domain.Entities;
 using StockTracker.Domain.Services;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StockTracker.ViewModels
 {
@@ -37,7 +39,6 @@ namespace StockTracker.ViewModels
         public string LatestPurchaseGainLossPercentageFormatted => $"{LatestPurchaseGainLossPercentage:F2}%";
         public string LastUpdatedFormatted => LastUpdated.ToString("yyyy-MM-dd HH:mm:ss UTC");
 
-
         public string BoughtMax => _stock.GetMaxBought()?.ToString("C2", CultureInfo.CurrentCulture);
         public string BoughtMin => _stock.GetMinBought()?.ToString("C2", CultureInfo.CurrentCulture);
         public string DivMaxMin => _stock.GetMaxMinDiv();
@@ -48,16 +49,65 @@ namespace StockTracker.ViewModels
         [ObservableProperty]
         private bool isRefreshing;
 
+        // persisted UI flag
+        [ObservableProperty]
+        private bool isMinimized;
+
+        // Computed helper for XAML (no converter needed)
+        public bool IsExpanded => !IsMinimized;
+
+        // Persisted/minimized formatted values (show these in the minimized bar)
+        public string MinimizedTotalInvestmentFormatted =>
+            (_stock.MinimizedTotalInvestment != 0m ? _stock.MinimizedTotalInvestment : TotalInvestment)
+            .ToString("C2", CultureInfo.CurrentCulture);
+
+        public string MinimizedCurrentPriceFormatted =>
+            (_stock.MinimizedCurrentPrice != 0m ? _stock.MinimizedCurrentPrice : CurrentPrice)
+            .ToString("C2", CultureInfo.CurrentCulture);
+
         public StockViewModel(Stock stock, IStockManagementService stockManagementService)
         {
             _stock = stock ?? throw new ArgumentNullException(nameof(stock));
             _stockManagementService = stockManagementService ?? throw new ArgumentNullException(nameof(stockManagementService));
 
+            // initialize ViewModel state from domain model
+            IsMinimized = _stock.IsMinimized;
+
             Purchases = new ObservableCollection<PurchaseViewModel>(
                 stock.Purchases.Select(p => new PurchaseViewModel(p)).OrderByDescending(p => p.PurchaseDate)
-
-
             );
+        }
+
+        // Notify IsExpanded when IsMinimized changes
+        partial void OnIsMinimizedChanged(bool value)
+        {
+            OnPropertyChanged(nameof(IsExpanded));
+            OnPropertyChanged(nameof(MinimizedTotalInvestmentFormatted));
+            OnPropertyChanged(nameof(MinimizedCurrentPriceFormatted));
+        }
+
+        [RelayCommand]
+        public async Task ToggleMinimizedAsync()
+        {
+            try
+            {
+                IsMinimized = !IsMinimized;
+                _stock.IsMinimized = IsMinimized;
+
+                // capture the current summary into the persisted fields so the minimized bar shows stable values when loaded
+                _stock.MinimizedTotalInvestment = _stock.GetTotalInvestment();
+                _stock.MinimizedCurrentPrice = _stock.CurrentPrice;
+
+                await _stockManagementService.SaveStockAsync(_stock);
+
+                // raise formatted properties
+                OnPropertyChanged(nameof(MinimizedTotalInvestmentFormatted));
+                OnPropertyChanged(nameof(MinimizedCurrentPriceFormatted));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error saving minimized state for {Symbol}: {ex.Message}");
+            }
         }
 
         [RelayCommand]
@@ -88,10 +138,16 @@ namespace StockTracker.ViewModels
                 OnPropertyChanged(nameof(LastUpdatedFormatted));
                 OnPropertyChanged(nameof(TotalGainLossColor));
                 OnPropertyChanged(nameof(LatestPurchaseGainLossColor));
+
+                // keep ViewModel state in sync with domain
+                IsMinimized = _stock.IsMinimized;
+
+                // update minimized formatted values
+                OnPropertyChanged(nameof(MinimizedTotalInvestmentFormatted));
+                OnPropertyChanged(nameof(MinimizedCurrentPriceFormatted));
             }
             catch (Exception ex)
             {
-                // Handle error - you might want to show this in the UI
                 System.Diagnostics.Debug.WriteLine($"Error refreshing price for {Symbol}: {ex.Message}");
             }
             finally
@@ -110,6 +166,9 @@ namespace StockTracker.ViewModels
             {
                 Purchases.Add(new PurchaseViewModel(purchase));
             }
+
+            // Keep UI flag in sync
+            IsMinimized = updatedStock.IsMinimized;
 
             // Notify all property changes
             OnPropertyChanged(nameof(CurrentPrice));
@@ -131,6 +190,8 @@ namespace StockTracker.ViewModels
             OnPropertyChanged(nameof(LastUpdatedFormatted));
             OnPropertyChanged(nameof(TotalGainLossColor));
             OnPropertyChanged(nameof(LatestPurchaseGainLossColor));
+            OnPropertyChanged(nameof(MinimizedTotalInvestmentFormatted));
+            OnPropertyChanged(nameof(MinimizedCurrentPriceFormatted));
         }
     }
 }

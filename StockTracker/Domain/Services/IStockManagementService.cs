@@ -10,5 +10,8 @@ namespace StockTracker.Domain.Services
         Task UpdateStockPriceAsync(string symbol);
         Task DeleteStockAsync(string symbol);
         Task<bool> StockExistsAsync(string symbol);
+
+        // Persist updates to a stock (UI state, etc.)
+        Task SaveStockAsync(Stock stock);
     }
 }

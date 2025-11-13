@@ -77,5 +77,12 @@ namespace StockTracker.Application.Services
 
             return await _stockRepository.ExistsAsync(symbol.ToUpperInvariant());
         }
+
+        // Persist stock updates (UI state changes)
+        public async Task SaveStockAsync(Stock stock)
+        {
+            if (stock == null) throw new ArgumentNullException(nameof(stock));
+            await _stockRepository.SaveAsync(stock);
+        }
     }
 }

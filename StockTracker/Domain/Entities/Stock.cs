@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace StockTracker.Domain.Entities
 {
     public class Stock
@@ -6,6 +10,13 @@ namespace StockTracker.Domain.Entities
         public List<Purchase> Purchases { get; private set; }
         public decimal CurrentPrice { get; private set; }
         public DateTime LastUpdated { get; private set; }
+
+        // Persisted UI flag (minimized / compact view)
+        public bool IsMinimized { get; set; } = false;
+
+        // Persisted minimized summary values (saved to disk)
+        public decimal MinimizedTotalInvestment { get; set; } = 0m;
+        public decimal MinimizedCurrentPrice { get; set; } = 0m;
 
         public Stock(string symbol)
         {
@@ -25,6 +36,12 @@ namespace StockTracker.Domain.Entities
             LastUpdated = DateTime.UtcNow;
         }
 
+        // Allow repository to restore persisted LastUpdated when reading from disk
+        public void SetLastUpdated(DateTime lastUpdated)
+        {
+            LastUpdated = lastUpdated;
+        }
+
         public decimal? GetMaxBought()
         {
             return Purchases.Where(p => p.IsDividend == false).Max(p => (decimal?)p.PricePerShare);
@@ -37,7 +54,9 @@ namespace StockTracker.Domain.Entities
 
         public string GetMaxMinDiv()
         {
-            return string.Concat(Purchases.Where(p => p.IsDividend == true).Max(p => (decimal?)p.PricePerShare).ToString(), "-", Purchases.Where(p => p.IsDividend == true).Min(p => (decimal?)p.PricePerShare).ToString());
+            var max = Purchases.Where(p => p.IsDividend == true).Max(p => (decimal?)p.PricePerShare);
+            var min = Purchases.Where(p => p.IsDividend == true).Min(p => (decimal?)p.PricePerShare);
+            return $"{max?.ToString() ?? "0"}-{min?.ToString() ?? "0"}";
         }
 
 
@@ -100,7 +119,5 @@ namespace StockTracker.Domain.Entities
             if (latestPurchase == null) return 0;
             return ((CurrentPrice - latestPurchase.PricePerShare) / latestPurchase.PricePerShare) * 100;
         }
-
-
     }
 }

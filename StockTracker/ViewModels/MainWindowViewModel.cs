@@ -21,11 +21,12 @@ namespace StockTracker.ViewModels
         [ObservableProperty]
         private string newSymbol = string.Empty;
 
+        // initialize these to avoid non-nullable warnings
         [ObservableProperty]
-        private string newPrice;
+        private string newPrice = "0";
 
         [ObservableProperty]
-        private string newQuantity;// = 1;
+        private string newQuantity = "0";// = 1;
 
         [ObservableProperty]
         private bool newIsDividend = false;
@@ -73,7 +74,7 @@ namespace StockTracker.ViewModels
             decimal price, quantity;
 
             price = decimal.TryParse(NewPrice, out price) ? price : 0;
-            quantity = decimal.TryParse(newQuantity, out quantity) ? quantity : 0;
+            quantity = decimal.TryParse(NewQuantity, out quantity) ? quantity : 0;
 
             if (string.IsNullOrWhiteSpace(NewSymbol))
             {

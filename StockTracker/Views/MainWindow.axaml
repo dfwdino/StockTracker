@@ -94,8 +94,8 @@
 								CornerRadius="8" Margin="0,0,0,10" Padding="20">
 							<Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto">
 
-								<!-- Stock Symbol and Current Price -->
-								<StackPanel Grid.Row="0" Grid.Column="0">
+								<!-- Stock Symbol and Current Price (hidden when minimized) -->
+								<StackPanel Grid.Row="0" Grid.Column="0" IsVisible="{Binding IsExpanded}">
 									<TextBlock Text="{Binding Symbol}" FontSize="24" FontWeight="Bold"
 											   Foreground="#2196F3"/>
 									<TextBlock Text="{Binding CurrentPriceFormatted}" FontSize="18"
@@ -105,16 +105,15 @@
 											   Foreground="#666"/>
 								</StackPanel>
 
-								<!-- Performance Summary -->
-								<StackPanel Grid.Row="0" Grid.Column="1" Margin="20,0">
+								<!-- Performance Summary (hidden when minimized) -->
+								<StackPanel Grid.Row="0" Grid.Column="1" Margin="20,0" IsVisible="{Binding IsExpanded}">
 									<Grid ColumnDefinitions="Auto,auto,Auto,auto,auto, auto" RowDefinitions="Auto,Auto,Auto,Auto">
 
-										
 										<TextBlock Grid.Row="0" Grid.Column="0" Text="Total Investment:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalInvestmentFormatted}"
 												   Margin="0,0,20,5"/>
-										
+
 										<TextBlock Grid.Row="0" Grid.Column="2" Text="Current Value:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding CurrentValueFormatted}"
@@ -125,7 +124,7 @@
 										<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding TotalGainLossFormatted}"
 												   Foreground="{Binding TotalGainLossColor}" FontWeight="SemiBold"
 												   Margin="0,0,20,5"/>
-										
+
 										<TextBlock Grid.Row="1" Grid.Column="2" Text="Percentage:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding TotalGainLossPercentageFormatted}"
@@ -137,7 +136,7 @@
 										<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding LatestPurchaseGainLossFormatted}"
 												   Foreground="{Binding LatestPurchaseGainLossColor}" FontWeight="SemiBold"
 												   Margin="0,0,20,5"/>
-										
+
 										<TextBlock Grid.Row="2" Grid.Column="2" Text="Percentage:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding LatestPurchaseGainLossPercentageFormatted}"
@@ -181,21 +180,40 @@
 									</Grid>
 								</StackPanel>
 
-								<!-- Action Buttons -->
+								<!-- Action Buttons (hidden when minimized) -->
 								<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical"
-											HorizontalAlignment="Right">
+											HorizontalAlignment="Right" IsVisible="{Binding IsExpanded}">
+									<Button Content="Toggle" Command="{Binding ToggleMinimizedCommand}" Width="80" Margin="0,0,0,10"/>
 									<Button Content="Refresh Price" Command="{Binding RefreshPriceCommand}"
 											Classes="outline" Margin="0,0,0,10" Width="120"/>
-									<Button Content="Delete Stock"
-											Command="{Binding DataContext.DeleteStockCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-											CommandParameter="{Binding}"
-											Classes="danger" Width="120"/>
+									<Button Content="Delete Stock" Command="{Binding DataContext.DeleteStockCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+											CommandParameter="{Binding}" Classes="danger" Width="120"/>
 								</StackPanel>
 
-								<!-- Purchases List -->
+								<!-- Minimized clickable bar (shows only the bottom summary; click to expand) -->
+								<Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+										Command="{Binding ToggleMinimizedCommand}"
+										IsVisible="{Binding IsMinimized}"
+										Background="#F9F9F9"
+										BorderBrush="#E0E0E0"
+										BorderThickness="1"
+										Padding="10"
+										Margin="0,15,0,0"
+										HorizontalContentAlignment="Stretch"
+										VerticalContentAlignment="Center">
+									<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="20">
+										<TextBlock Text="{Binding Symbol}" FontWeight="Bold" FontSize="16" Margin="4,0"/>
+										<TextBlock Text="Total Inviestment:" FontWeight="SemiBold" Margin="4,0"/><TextBlock Text="{Binding MinimizedTotalInvestmentFormatted}" FontWeight="SemiBold" Margin="8,0"/>
+										<TextBlock Text="Last Price:" FontWeight="SemiBold" Margin="4,0"/><TextBlock Text="{Binding MinimizedCurrentPriceFormatted}" FontWeight="SemiBold" Margin="8,0"/>
+									</StackPanel>
+								</Button>
+
+								<!-- Full details view (visible when not minimized) -->
 								<Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
 										Background="#F9F9F9" BorderBrush="#E0E0E0" BorderThickness="1"
-										CornerRadius="4" Margin="0,15,0,0" Padding="15">
+										CornerRadius="4" Margin="0,15,0,0" Padding="15"
+										IsVisible="{Binding IsExpanded}">
+									<!-- Purchase History content (unchanged) -->
 									<StackPanel>
 
 										<Grid ColumnDefinitions="Auto,auto,Auto,Auto,Auto">
@@ -205,7 +223,6 @@
 											<TextBlock Grid.Column="3" Text="Total Cost" TextAlignment="Center" FontWeight="Bold" Width="125"/>
 											<TextBlock Grid.Column="4" Text="Is Div" TextAlignment="Center" FontWeight="Bold" Width="125"/>
 										</Grid>
-
 
 										<ItemsControl ItemsSource="{Binding Purchases}">
 											<ItemsControl.ItemTemplate>

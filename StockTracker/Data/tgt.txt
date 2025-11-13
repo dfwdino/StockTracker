@@ -1,17 +1,46 @@
 {
   "symbol": "TGT",
-  "currentPrice": 90.3850,
-  "lastUpdated": "2025-10-08T22:10:21.0097575Z",
+  "currentPrice": 91.9300,
+  "lastUpdated": "2025-11-13T17:47:56.6361674Z",
+  "isMinimized": true,
+  "minimizedTotalInvestment": 1633.80451773,
+  "minimizedCurrentPrice": 91.9300,
   "purchases": [
     {
-      "pricePerShare": 88,
-      "quantity": 1,
-      "purchaseDate": "2025-10-01T00:00:00-05:00"
+      "pricePerShare": 112.98,
+      "quantity": 0.88514,
+      "purchaseDate": "03/04/2025 12:00:00 AM -06:00",
+      "isDividend": false
     },
     {
-      "pricePerShare": 100,
-      "quantity": 12,
-      "purchaseDate": "2025-10-08T00:00:00-05:00"
+      "pricePerShare": 131.06,
+      "quantity": 0.38149,
+      "purchaseDate": "12/17/2024 12:00:00 AM -06:00",
+      "isDividend": false
+    },
+    {
+      "pricePerShare": 91.84,
+      "quantity": 4.168544,
+      "purchaseDate": "9/3/2025 12:00:00 AM -06:00",
+      "isDividend": true
+    },
+    {
+      "pricePerShare": 94.95,
+      "quantity": 3.915476,
+      "purchaseDate": "6/3/2025 12:00:00 AM -06:00",
+      "isDividend": true
+    },
+    {
+      "pricePerShare": 113.71,
+      "quantity": 3.228827,
+      "purchaseDate": "3/4/2025 12:00:00 AM -06:00",
+      "isDividend": true
+    },
+    {
+      "pricePerShare": 137.22,
+      "quantity": 2.63839,
+      "purchaseDate": "12/11/2024 12:00:00 AM -06:00",
+      "isDividend": true
     }
   ]
 }

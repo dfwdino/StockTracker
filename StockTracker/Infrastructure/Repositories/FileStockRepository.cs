@@ -1,6 +1,7 @@
 using StockTracker.Domain.Entities;
 using StockTracker.Domain.Repositories;
 using System.Text.Json;
+using System.Linq;
 
 namespace StockTracker.Infrastructure.Repositories
 {
@@ -44,7 +45,14 @@ namespace StockTracker.Infrastructure.Repositories
                 }
 
                 var stock = new Stock(symbol);
+
+                // restore persisted values
                 stock.UpdateCurrentPrice(stockData.CurrentPrice);
+                stock.SetLastUpdated(stockData.LastUpdated);
+
+                stock.IsMinimized = stockData.IsMinimized;
+                stock.MinimizedTotalInvestment = stockData.MinimizedTotalInvestment;
+                stock.MinimizedCurrentPrice = stockData.MinimizedCurrentPrice;
 
                 foreach (var purchaseData in stockData.Purchases)
                 {
@@ -88,6 +96,8 @@ namespace StockTracker.Infrastructure.Repositories
 
         public async Task SaveAsync(Stock stock)
         {
+            if (stock == null) throw new ArgumentNullException(nameof(stock));
+
             var filePath = GetFilePath(stock.Symbol);
 
             var stockData = new StockData
@@ -95,6 +105,9 @@ namespace StockTracker.Infrastructure.Repositories
                 Symbol = stock.Symbol,
                 CurrentPrice = stock.CurrentPrice,
                 LastUpdated = stock.LastUpdated,
+                IsMinimized = stock.IsMinimized,
+                MinimizedTotalInvestment = stock.MinimizedTotalInvestment,
+                MinimizedCurrentPrice = stock.MinimizedCurrentPrice,
                 Purchases = stock.Purchases.OrderBy(mm => mm.IsDividend).Select(p => new PurchaseData
                 {
                     PricePerShare = p.PricePerShare,
@@ -115,8 +128,9 @@ namespace StockTracker.Infrastructure.Repositories
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
-                await Task.CompletedTask;
             }
+
+            await Task.CompletedTask;
         }
 
         public async Task<bool> ExistsAsync(string symbol)
@@ -137,6 +151,9 @@ namespace StockTracker.Infrastructure.Repositories
             public string Symbol { get; set; } = string.Empty;
             public decimal CurrentPrice { get; set; }
             public DateTime LastUpdated { get; set; }
+            public bool IsMinimized { get; set; } = false;
+            public decimal MinimizedTotalInvestment { get; set; } = 0m;
+            public decimal MinimizedCurrentPrice { get; set; } = 0m;
             public List<PurchaseData> Purchases { get; set; } = new();
         }
 
