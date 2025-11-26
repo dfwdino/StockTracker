@@ -72,7 +72,7 @@ namespace StockTracker.Domain.Entities
         }
 
 
-        public decimal? GetLatestDividendTotal()
+        public decimal? GetDividendTotal()
         {
             return Purchases.Where(p => p.IsDividend == true).Sum(p => p.TotalCost);
         }

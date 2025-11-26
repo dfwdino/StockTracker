@@ -26,7 +26,7 @@ namespace StockTracker.ViewModels
         public decimal LatestPurchaseGainLoss => _stock.GetLatestPurchaseGainLoss();
         public decimal LatestPurchaseGainLossPercentage => _stock.GetLatestPurchaseGainLossPercentage();
 
-        public string LatestDivTotalFormatted => _stock.GetLatestDividendTotal()?.ToString("C2", CultureInfo.CurrentCulture);
+        public string TotalDividend => _stock.GetDividendTotal()?.ToString("C2", CultureInfo.CurrentCulture);
 
         public ObservableCollection<PurchaseViewModel> Purchases { get; }
 

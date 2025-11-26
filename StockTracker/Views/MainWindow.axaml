@@ -145,8 +145,8 @@
 
 										<TextBlock Grid.Row="3" Grid.Column="2" Text="Total Div:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
-										<TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding LatestDivTotalFormatted}"
-												   Foreground="{Binding LatestDivTotalFormatted}" FontWeight="SemiBold"
+										<TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding TotalDividend}"
+												   Foreground="{Binding TotalDividend}" FontWeight="SemiBold"
 												   Margin="0,0,20,5"/>
 
 										<TextBlock Grid.Row="0" Grid.Column="4" Text="Total Bought:"
