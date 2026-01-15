@@ -125,23 +125,23 @@
 												   Foreground="{Binding TotalGainLossColor}" FontWeight="SemiBold"
 												   Margin="0,0,20,5"/>
 
-										<TextBlock Grid.Row="1" Grid.Column="2" Text="Percentage:"
+										<TextBlock Grid.Row="1" Grid.Column="2" Text="Total Gain/Lost Percentage:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding TotalGainLossPercentageFormatted}"
 												   Foreground="{Binding TotalGainLossColor}" FontWeight="SemiBold"
 												   Margin="0,0,0,5"/>
 
-										<TextBlock Grid.Row="2" Grid.Column="0" Text="Latest Purchase Gain/Loss:"
+										<!--<TextBlock Grid.Row="2" Grid.Column="0" Text="Latest Purchase Gain/Loss:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding LatestPurchaseGainLossFormatted}"
 												   Foreground="{Binding LatestPurchaseGainLossColor}" FontWeight="SemiBold"
-												   Margin="0,0,20,5"/>
+												   Margin="0,0,20,5"/>-->
 
-										<TextBlock Grid.Row="2" Grid.Column="2" Text="Percentage:"
+										<!--<TextBlock Grid.Row="2" Grid.Column="2" Text="Last+/- Percentage:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
 										<TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding LatestPurchaseGainLossPercentageFormatted}"
 												   Foreground="{Binding LatestPurchaseGainLossColor}" FontWeight="SemiBold"
-												   Margin="0,0,20,5"/>
+												   Margin="0,0,20,5"/>-->
 
 										<TextBlock Grid.Row="3" Grid.Column="2" Text="Total Div:"
 												   FontWeight="SemiBold" Margin="0,0,10,5"/>
