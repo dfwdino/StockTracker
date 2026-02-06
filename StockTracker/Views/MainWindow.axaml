@@ -183,9 +183,13 @@
 								<!-- Action Buttons (hidden when minimized) -->
 								<StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical"
 											HorizontalAlignment="Right" IsVisible="{Binding IsExpanded}">
-									<Button Content="Toggle" Command="{Binding ToggleMinimizedCommand}" Width="80" Margin="0,0,0,10"/>
+									
+									<Button Content="Hide" Command="{Binding ToggleMinimizedCommand}" 
+											HorizontalContentAlignment="Center" Classes="outline" Width="120" Margin="0,0,0,10"/>
+									
 									<Button Content="Refresh Price" Command="{Binding RefreshPriceCommand}"
 											Classes="outline" Margin="0,0,0,10" Width="120"/>
+									
 									<Button Content="Delete Stock" Command="{Binding DataContext.DeleteStockCommand, RelativeSource={RelativeSource AncestorType=Window}}"
 											CommandParameter="{Binding}" Classes="danger" Width="120"/>
 								</StackPanel>
